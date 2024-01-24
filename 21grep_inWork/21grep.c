@@ -28,19 +28,52 @@ typedef struct s_flags {
     int lenPattern;
 } t_flags;
 
-void flagParser(int argc, char** argv, t_flags* flag) {
+//void execute(int argc, char **argv)
+//{
+//    int opt = 0;
+//    int num_flags = 0;
+//    t_flags* flags = NULL;
+//    char template[BUFFER];
+//    char flag[BUFFER];
+//
+//    while ((opt = getopt(argc, argv, "e:ivclnhsf:o")) != -1)
+//    {
+//        if (opt == '?')
+//          exit(2);
+//
+//        printf("Start\n");
+//        printf("opt: %c\n", (char)opt);
+//        printf("optarg: %s\n", optarg);
+//    }
+//}
+
+{
+    int opt = 0;
+    int num_flags = 0;
+    t_flags* flags = NULL;
+    char template[BUFFER];
+    char flag[BUFFER];
+
+    while ((opt = getopt(argc, argv, "e:ivclnhsf:o")) != -1)
+    {
+        if (opt == '?')
+          exit(2);
+
+        printf("Start\n");
+        printf("opt: %c\n", (char)opt);
+        printf("optarg: %s\n", optarg);
+    }
+}
+
+void flagParser(char args, t_flags* flag) {
     int opt = 0;
     char flagList[FLAGS_COUNT] = "efivclnhso";
-    for (int i = 0; i < FLAGS_COUNT; i++)
-    {
-        opt = getopt_long(argc, argv, flagList, NULL, 0);
-        
-        if (opt == (int)(flag->dict[i].key))
-        {
+    for (int i = 0; i < FLAGS_COUNT; i++) {   
+        if (args == (int)(flag->dict[i].key)) {
             flag->dict[i].val = true;
             break;
-        } else if (opt == '?') {
-            exit(1);
+        } else {
+            printf("s21_grep: invalid option -- %c", args);
         }
     }
 }
@@ -133,11 +166,14 @@ void optionScan(int argc, char** argv, t_flags* flag) {
                         /* находим соответсвующий флаг в flag и ставим true */
                         if (arg[i] == '-' || arg[i] == ' ') {
                             continue;
+                        } else {
+                            flagParser(arg[i], flag);
                         }
                         ++i;
                     }
                     {
                         /* флаги закончились, начинаем работать template */
+                        
                     }
             }
             else { /* работаем с template */
