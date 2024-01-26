@@ -1,5 +1,8 @@
 #include "s21_cat.h"
 
+// 1/1/2 fail cat -b -e -n -s -t -v test_1_cat.txt
+
+// 2/4/6 fail cat -n -b test_1_cat.txt
 
 void cat_print(FILE *file, flags *flag) {
     int currentSymb, previousSymb = 1, count = 1, firstLine = 1, tmp = 0;
@@ -21,7 +24,7 @@ void cat_print(FILE *file, flags *flag) {
             }
         }
         if (flag->b == 1) {
-            if ((previousSymb == '\n' && currentSymb != previousSymb) || firstLine) {
+            if ((previousSymb == '\n' && currentSymb != previousSymb) || (firstLine && currentSymb != '\n')) {
                 printf("%6d\t", count);
                 firstLine = 0;
                 count++;
