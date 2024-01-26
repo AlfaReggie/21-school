@@ -10,7 +10,7 @@ typedef struct s_flags
 {
     
     char flag;
-    char template[SIZE];
+    char* template[SIZE];
 
 } t_flags;
 
@@ -77,7 +77,7 @@ void execute(int argc, char **argv)
     int num_flags = 0;
     t_flags* flags = NULL;
 
-    while ((opt = getopt(argc, argv, "e:ivclnhsf:o")) != EOF)
+    while ((opt = getopt(argc, argv, "e:ivclnhsf:o")) != -1)
     {
         if (opt == '?')
             exit(2);
@@ -86,11 +86,15 @@ void execute(int argc, char **argv)
         printf("optarg: %s\n", optarg);
         flags[num_flags].flag = opt;
         flags->template[num_flags] = optarg;
-        printf("flag[%d].flag: %c\n", num_flags, flags[num_flags].flag);
-        printf("flag[%d].template: %s\n", num_flags, flags[num_flags].template);
         printf("num_flags: %d\n\n", num_flags);
         num_flags++;
     }
+    for (int i = 0; i < num_flags + 1; i++)
+    {
+        printf("flag[%d].flag: %c\n", num_flags, flags[num_flags].flag);
+        printf("flag[%d].template: %s\n", num_flags, flags->template[num_flags]);
+    }
+    
 }
 
 
