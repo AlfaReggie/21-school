@@ -103,7 +103,8 @@ void execute_line(t_flag *flags, regex_t *regex, const char* filename, const cha
         {
             if (!get_flag_val(flags, 'c') && !get_flag_val(flags, 'l'))
             {
-                if (!get_flag_val(flags, 'h'))
+                // printf("1\n");
+                if (!get_flag_val(flags, 'h') && filename)
                     printf("%s:", filename);
                 if (get_flag_val(flags, 'n'))
                     printf("%zu:", line.line_count+1);
@@ -181,11 +182,12 @@ char* parse_file_with_templates(const char* filename)
 
 void combo_check(t_flag *flags, const char *path, int c)
 {
+    // printf("%d\n", c);
     if (!path)
         return;
     if (get_flag_val(flags, 'c') && !get_flag_val(flags, 'l'))
     {
-        if (!get_flag_val(flags, 'h'))
+        if (path && !get_flag_val(flags, 'h'))
             printf("%s:", path);
         printf("%d\n", c);
     }
@@ -193,7 +195,7 @@ void combo_check(t_flag *flags, const char *path, int c)
     {
         if (get_flag_val(flags, 'l') && get_flag_val(flags, 'c'))
         {
-            if (!get_flag_val(flags, 'h'))
+            if (path && !get_flag_val(flags, 'h'))
                 printf("%s:1\n", path);
             else
                 printf("1\n");
@@ -201,13 +203,13 @@ void combo_check(t_flag *flags, const char *path, int c)
     }
     if (get_flag_val(flags, 'l') && get_flag_val(flags, 'c') && !get_flag_val(flags, 'v'))
     {
-        if (!get_flag_val(flags, 'h'))
+        if (path && !get_flag_val(flags, 'h'))
             printf("%s:", path);
         if (c < 1)
             printf("0\n");
         if (c > 0)
             printf("1\n");
     }
-    if (get_flag_val(flags, 'l') && c > 0)
+    if (path && get_flag_val(flags, 'l') && c > 0)
         printf("%s\n", path);
 }

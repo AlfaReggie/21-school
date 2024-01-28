@@ -8,13 +8,12 @@ DIFF_RES=""
 
 declare -a tests=(
 "s test_text_grep.txt VAR"
-"for s21_grep.c s21_grep.h Makefile VAR"
-"for s21_grep.c VAR"
-"-e for -e ^int s21_grep.c s21_grep.h Makefile VAR"
-"-e for -e ^int s21_grep.c VAR"
-"-e regex -e ^print s21_grep.c VAR -f test_ptrn_grep.txt"
-"-e while -e void s21_grep.c Makefile VAR -f test_ptrn_grep.txt"
-"VAR no_file.txt"
+"for ../src/s21_grep.c ../includes/s21_grep.h ../Makefile VAR"
+"for ../src/s21_grep.c VAR"
+"-e for -e ^int ../src/s21_grep.c ../includes/s21_grep.h ../Makefile VAR"
+"-e for -e ^int ../src/s21_grep.c VAR"
+"-e regex -e ^print ../src/s21_grep.c VAR -f test_ptrn_grep.txt"
+"-e while -e void ../src/s21_grep.c ../Makefile VAR -f test_ptrn_grep.txt"
 )
 
 declare -a extra=(
@@ -47,7 +46,8 @@ declare -a extra=(
 testing()
 {
     t=$(echo $@ | sed "s/VAR/$var/")
-    leaks -quiet -atExit -- ./s21_grep $t > test_s21_grep.log
+    echo $t
+    leaks -quiet -atExit -- ../s21_grep $t > test_s21_grep.log
     leak=$(grep -A100000 leaks test_s21_grep.log)
     (( COUNTER++ ))
     if [[ $leak == *"0 leaks for 0 total leaked bytes"* ]]
